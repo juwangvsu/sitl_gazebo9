@@ -1,0 +1,5 @@
+2018_09_27_03_38_27: [logger] file: rootfs/fs/microsd/log/2018-09-27/0
+2018_09_27_03_38_54: ARMED by command line
+2018_09_27_03_38_54: Taking off
+2018_09_27_03_38_54: Using minimum takeoff altitude: 2.50 m
+2018_09_27_03_38_54: Takeoff detected
