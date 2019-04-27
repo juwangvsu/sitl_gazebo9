@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//xxx
 
 #include "gazebo_mavlink_interface.h"
 #include "geo_mag_declination.h"
@@ -28,15 +28,21 @@ namespace gazebo {
 // Zurich Irchel Park: 47.397742, 8.545594, 488m
 // Seattle downtown (15 deg declination): 47.592182, -122.316031, 86m
 // Moscow downtown: 55.753395, 37.625427, 155m
+// VSU farm: 37.2272186, -77.4395294, 15m
 
+// VSU farm 
+static double lat_zurich =37.2272186 * M_PI / 180;  // rad
+static double lon_zurich = -77.4395294 * M_PI / 180;  // rad
+static double alt_zurich = 25.0; // meters
 // Zurich Irchel Park
-static const double lat_zurich = 47.397742 * M_PI / 180;  // rad
-static const double lon_zurich = 8.545594 * M_PI / 180;  // rad
-static const double alt_zurich = 488.0; // meters
+//static const double lat_zurich = 47.397742 * M_PI / 180;  // rad
+//static const double lon_zurich = 8.545594 * M_PI / 180;  // rad
+//static const double alt_zurich = 488.0; // meters
 // Seattle downtown (15 deg declination): 47.592182, -122.316031
 // static const double lat_zurich = 47.592182 * M_PI / 180;  // rad
 // static const double lon_zurich = -122.316031 * M_PI / 180;  // rad
 // static const double alt_zurich = 86.0; // meters
+
 static const float earth_radius = 6353000;  // m
 
 
@@ -441,6 +447,15 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
   if (_sdf->HasElement("mavlink_udp_port")) {
     mavlink_udp_port_ = _sdf->GetElement("mavlink_udp_port")->Get<int>();
   }
+  if (_sdf->HasElement("gps_lat")) {
+    lat_zurich = _sdf->GetElement("gps_lat")->Get<double>();
+  }
+  if (_sdf->HasElement("gps_lon")) {
+    lon_zurich = _sdf->GetElement("gps_lon")->Get<double>();
+  }
+  if (_sdf->HasElement("gps_alt")) {
+    alt_zurich = _sdf->GetElement("gps_lat")->Get<double>();
+  }
 
   // try to setup udp socket for communcation with simulator
   if ((_fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
@@ -469,7 +484,6 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
 
   gps_pub_ = node_handle_->Advertise<msgs::Vector3d>("~/gps_position");
 }
-
 // This gets called by the world update start event.
 void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
 
@@ -504,7 +518,9 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
   //send gps
   math::Pose T_W_I = model_->GetWorldPose(); //TODO(burrimi): Check tf.
   math::Vector3 pos_W_I = T_W_I.pos;  // Use the models' world position for GPS and pressure alt.
-
+  gzlogcnt++;
+  if (gzlogcnt%1000==1)
+    gzwarn << "wang model world position " << pos_W_I << "\n";
   math::Vector3 velocity_current_W = model_->GetWorldLinearVel();  // Use the models' world position for GPS velocity.
 
   math::Vector3 velocity_current_W_xy = velocity_current_W;

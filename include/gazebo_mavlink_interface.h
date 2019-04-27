@@ -99,6 +99,7 @@ class GazeboMavlinkInterface : public ModelPlugin {
         input_index_{},
         lat_rad(0.0),
         lon_rad(0.0),
+	gzlogcnt(0),
         mavlink_udp_port_(kDefaultMavlinkUdpPort)
         {}
   ~GazeboMavlinkInterface();
@@ -183,6 +184,7 @@ class GazeboMavlinkInterface : public ModelPlugin {
   double gps_update_interval_;
   double lat_rad;
   double lon_rad;
+  int gzlogcnt;
   void handle_control(double _dt);
 
   math::Vector3 gravity_W_;

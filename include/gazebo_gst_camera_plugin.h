@@ -54,6 +54,7 @@ class GAZEBO_VISIBLE GstCameraPlugin : public SensorPlugin
 		unsigned int depth, const std::string &format);
 
   public: void startGstThread();
+  public: void stopStreaming();
   public: void gstCallback(GstElement *appsrc);
 
   protected: unsigned int width, height, depth;
