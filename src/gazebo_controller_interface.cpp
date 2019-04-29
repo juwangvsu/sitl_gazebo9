@@ -24,7 +24,8 @@
 namespace gazebo {
 
 GazeboControllerInterface::~GazeboControllerInterface() {
-  event::Events::DisconnectWorldUpdateBegin(updateConnection_);
+    updateConnection_->~Connection();
+//  event::Events::DisconnectWorldUpdateBegin(updateConnection_);
 }
 
 void GazeboControllerInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
@@ -65,8 +66,11 @@ void GazeboControllerInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
 
   if(!received_first_referenc_)
     return;
-
+#if GAZEBO_MAJOR_VERSION >= 9
+  common::Time now  = world_->SimTime();
+#else
   common::Time now = world_->GetSimTime();
+#endif
 
   mav_msgs::msgs::CommandMotorSpeed turning_velocities_msg;
 

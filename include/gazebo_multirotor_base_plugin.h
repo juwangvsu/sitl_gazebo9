@@ -27,8 +27,9 @@
 #include <gazebo/physics/physics.hh>
 
 #include "common.h"
+#include <ignition/math4/ignition/math.hh>
 
-#include "gazebo/math/Vector3.hh"
+//#include "gazebo/math/Vector3.hh"
 #include "gazebo/transport/transport.hh"
 #include "gazebo/msgs/msgs.hh"
 #include "MotorSpeed.pb.h"

@@ -165,9 +165,18 @@ add_custom_target(sdf ALL DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/models/iris/iris.s
 #--------------------#
 
 set (msgs
+  msgs/Imu.proto
   msgs/Float.proto
-  msgs/SensorImu.proto
-  msgs/opticalFlow.proto
+#  msgs/SensorImu.proto
+  msgs/OpticalFlow.proto
+  msgs/Range.proto
+  msgs/Groundtruth.proto
+  msgs/Odometry.proto
+  msgs/MagneticField.proto
+  msgs/MotorSpeed.proto
+  msgs/Pressure.proto
+  msgs/SITLGps.proto
+  msgs/IRLock.proto
   msgs/lidar.proto
   msgs/CommandMotorSpeed.proto
   msgs/MotorSpeed.proto
