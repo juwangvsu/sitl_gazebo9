@@ -21,7 +21,7 @@
 
 #include "gazebo_mavlink_interface.h"
 #include "geo_mag_declination.h"
-
+//int dbgstep=3; should make it class member instead of global
 namespace gazebo {
 
 // Set global reference point
@@ -68,6 +68,7 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
   node_handle_ = transport::NodePtr(new transport::Node());
   node_handle_->Init(namespace_);
 
+  getSdfParam<int>(_sdf, "dbgstep", dbgstep_, dbgstep_);
   getSdfParam<std::string>(_sdf, "motorSpeedCommandPubTopic", motor_velocity_reference_pub_topic_,
                            motor_velocity_reference_pub_topic_);
   getSdfParam<std::string>(_sdf, "imuSubTopic", imu_sub_topic_, imu_sub_topic_);
@@ -518,9 +519,6 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
   //send gps
   math::Pose T_W_I = model_->GetWorldPose(); //TODO(burrimi): Check tf.
   math::Vector3 pos_W_I = T_W_I.pos;  // Use the models' world position for GPS and pressure alt.
-  gzlogcnt++;
-  if (gzlogcnt%1000==1)
-    gzwarn << "wang model world position " << pos_W_I << "\n";
   math::Vector3 velocity_current_W = model_->GetWorldLinearVel();  // Use the models' world position for GPS velocity.
 
   math::Vector3 velocity_current_W_xy = velocity_current_W;
@@ -540,6 +538,7 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
    lat_rad = lat_zurich;
     lon_rad = lon_zurich;
   }
+  msgs::Vector3d gps_msg;
   
   if (current_time.Double() - last_gps_time_.Double() > gps_update_interval_) {  // 5Hz
     // Raw UDP mavlink
@@ -560,11 +559,14 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
 
     send_mavlink_message(MAVLINK_MSG_ID_HIL_GPS, &hil_gps_msg, 200);
 
-    msgs::Vector3d gps_msg;
     gps_msg.set_x(lat_rad * 180. / M_PI);
     gps_msg.set_y(lon_rad * 180. / M_PI);
     gps_msg.set_z(hil_gps_msg.alt / 1000.f);
     gps_pub_->Publish(gps_msg);
+    gzlogcnt++;
+    if (gzlogcnt % 100==1)
+    //if (gzlogcnt % dbgstep_==1)
+      gzwarn << namespace_ << " wang wrd position " << pos_W_I << " lat/lon " <<gps_msg.x() <<" " << gps_msg.y()<<"\n";
 
     last_gps_time_ = current_time;
   }

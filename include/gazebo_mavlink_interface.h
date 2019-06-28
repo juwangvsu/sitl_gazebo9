@@ -114,7 +114,7 @@ class GazeboMavlinkInterface : public ModelPlugin {
 
   bool received_first_referenc_;
   Eigen::VectorXd input_reference_;
-
+  int dbgstep_; //wang add 6/27/19 to control dbg msg printing rate
   std::string namespace_;
   std::string motor_velocity_reference_pub_topic_;
   std::string mavlink_control_sub_topic_;
