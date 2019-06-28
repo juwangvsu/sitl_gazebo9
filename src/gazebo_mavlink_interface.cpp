@@ -69,6 +69,7 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
   node_handle_->Init(namespace_);
 
   getSdfParam<int>(_sdf, "dbgstep", dbgstep_, dbgstep_);
+  getSdfParam<std::string>(_sdf, "robotnm", robotnm_, robotnm_);
   getSdfParam<std::string>(_sdf, "motorSpeedCommandPubTopic", motor_velocity_reference_pub_topic_,
                            motor_velocity_reference_pub_topic_);
   getSdfParam<std::string>(_sdf, "imuSubTopic", imu_sub_topic_, imu_sub_topic_);
@@ -483,7 +484,7 @@ void GazeboMavlinkInterface::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf
   fds[0].fd = _fd;
   fds[0].events = POLLIN;
 
-  gps_pub_ = node_handle_->Advertise<msgs::Vector3d>("~/gps_position");
+  gps_pub_ = node_handle_->Advertise<msgs::Vector3d>("/"+robotnm_+"/gps_position");
 }
 // This gets called by the world update start event.
 void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
@@ -558,6 +559,7 @@ void GazeboMavlinkInterface::OnUpdate(const common::UpdateInfo& /*_info*/) {
     hil_gps_msg.satellites_visible = 10;
 
     send_mavlink_message(MAVLINK_MSG_ID_HIL_GPS, &hil_gps_msg, 200);
+    //  gzwarn << namespace_ << " send mavlink gps msg" <<"\n";
 
     gps_msg.set_x(lat_rad * 180. / M_PI);
     gps_msg.set_y(lon_rad * 180. / M_PI);

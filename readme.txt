@@ -1,3 +1,12 @@
+-------------6/28/19 gazebo slow after 6/27/19 ------------
+	
+	px4 complain:
+		simulator is slow. Delay added: ....
+		normally px4 will spew out "no observation pos 0.016 lastknown 0.000" very fast at the begining when gazebo start. but in this case this msg also pop up slowly, indicating the msg from mavlink_interface (in gazebo) is slow.
+	
+	turn out to be the robotNamespace tag in iris_px4_standoff_demo_cam1,2/model.sdf cause the problem. the tag if provided in the sdf file slow down
+	the way mavlink_interface is updated, 
+	need to check mavlink_interface.cpp for more detail.
 -------------6/27/19------------
 gazebo_mavlink_interface.cpp
 	this is responsible for publishing gps_position in gazebo space
