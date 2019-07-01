@@ -1,3 +1,10 @@
+-------------7/1/19  iris_cam2_plain.world ------------a
+       add iris_cam2_plain.world, which show rtf 1.0 and stable gazebo simulation
+        , 14 minu good. there is no Hard reset error,
+        the world file only contain a plane and two uavs.
+
+git push origin HEAD:gazebo7ub16
+
 -------------7/1/19------------
         find gps_raw and global_pos msg altitude not the same.
         gps_raw seems direct from gazebo, but global_pos after
