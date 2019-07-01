@@ -1,3 +1,15 @@
+-------------7/1/19------------
+        find gps_raw and global_pos msg altitude not the same.
+        gps_raw seems direct from gazebo, but global_pos after
+        fusion.
+
+        one possible cause of instability is the low takeoff alt can easily
+        result in a scenario where actual altitude is 0 but rel-alt still 2.5
+        meters above, thus cause a crash and knock off gps.
+
+        testing: change the takeoff alt to 10, change offbnode alt to 10
+        and check the stability.
+
 -------------6/28/19 gazebo slow after 6/27/19 ------------
 	
 	px4 complain:
