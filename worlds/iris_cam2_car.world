@@ -60,6 +60,29 @@ to fly iris with a ps2 joystick.
         <pose>-5 0 1 0 0.2 0</pose>
       </camera>
     </gui>
+<!-- this physics setting same as the xx_plain.world, suppose to be good, rtf 1
+-->
+    <physics name='default_physics' default='0' type='ode'>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>10</iters>
+          <sor>1.3</sor>
+          <use_dynamic_moi_rescaling>0</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>100</contact_max_correcting_vel>
+          <contact_surface_layer>0.001</contact_surface_layer>
+        </constraints>
+      </ode>
+      <max_step_size>0.002</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>500</real_time_update_rate>
+    </physics>
+
+
 <!--
     <physics type="ode">
       <ode>
@@ -143,10 +166,14 @@ to fly iris with a ps2 joystick.
 
       </link>
     </model>
+      <include>
+        <uri>model://utility_cart</uri>
+        <pose>6 1.5 0.19 0 0 0</pose>
+      </include>
 <!--
 -->
     <model name="iris_demo_1">
-        <pose>5 0 0.19 0 0 0</pose>
+        <pose>5 -1 0.19 0 0 0</pose>
       <include>
         <uri>model://iris_px4_standoff_demo_cam1</uri>
       </include>
@@ -159,15 +186,13 @@ to fly iris with a ps2 joystick.
     </model>
 <!--
     <model name="Pioneer3AT">
--->
       <include>
         <uri>model://pioneer3at_ros</uri>
         <pose>6 .5 0.19 0 0 0</pose>
       </include>
-      <include>
-        <uri>model://utility_cart</uri>
-        <pose>6 1.5 0.19 0 0 0</pose>
-      </include>
+-->
+<!--
+-->
     <model name="apriltag1">
       <pose> 3 1 0 0 0 0 </pose>
       <include>
@@ -177,9 +202,6 @@ to fly iris with a ps2 joystick.
     </model>
 
 
-<!--
-    </model>
--->
 <!--
     <physics name='default_physics' default='0' type='ode'>
       <gravity>0 0 -9.8066</gravity>
