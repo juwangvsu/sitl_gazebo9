@@ -60,7 +60,7 @@ to fly iris with a ps2 joystick.
         <pose>-5 0 1 0 0.2 0</pose>
       </camera>
     </gui>
-<!-- this physics setting same as the xx_plain.world, suppose to be good, rtf 1
+<!-- 7/2/19 this physics setting same as the xx_plain.world, suppose to be good, rtf 1
 -->
     <physics name='default_physics' default='0' type='ode'>
       <ode>
