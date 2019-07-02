@@ -185,12 +185,13 @@ to fly iris with a ps2 joystick.
       </include>
     </model>
 <!--
+-->
     <model name="Pioneer3AT">
       <include>
         <uri>model://pioneer3at_ros</uri>
         <pose>6 .5 0.19 0 0 0</pose>
       </include>
--->
+    </model>
 <!--
 -->
     <model name="apriltag1">
