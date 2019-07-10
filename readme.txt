@@ -4,6 +4,7 @@
         the world file only contain a plane and two uavs.
 
 git push origin HEAD:gazebo7ub16
+git pull origin gazebo7ub16
 
 -------------7/1/19------------
         find gps_raw and global_pos msg altitude not the same.
